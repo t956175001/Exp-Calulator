@@ -742,7 +742,11 @@
   const targetLevel = parseInt(document.getElementById("targetLevel").value);
   const currentExp = parseInt(document.getElementById("currentExp").value);
   const efficiency = parseFloat(document.getElementById("efficiency").value);
-
+    
+  localStorage.setItem("lastData", JSON.stringify({
+    version, currentLevel, targetLevel, currentExp, efficiency
+  }));
+    
   const currentTotalExp = getTotalExp(currentLevel, expTable) + currentExp *10000;
   const targetTotalExp = getTotalExp(targetLevel, expTable);
   const needExp = targetTotalExp - currentTotalExp;
@@ -766,6 +770,18 @@
     预计完成时间：${targetTime.toLocaleString()}
   `;
 }
+window.onload = function() {
+  const saved = localStorage.getItem("lastData");
+  if (saved) {
+    const data = JSON.parse(saved);
+    document.getElementById("version").value = data.version;
+    document.getElementById("currentLevel").value = data.currentLevel;
+    document.getElementById("targetLevel").value = data.targetLevel;
+    document.getElementById("currentExp").value = data.currentExp;
+    document.getElementById("efficiency").value = data.efficiency;
+  }
+};
 </script>
 </body>
 </html>
+
